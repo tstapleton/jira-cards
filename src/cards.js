@@ -14,13 +14,12 @@ function getIssues() {
 		.filter((issue) => issue.printStatus === 'TODO')
 		.filter((issue) => issue.type === 'Story')
 		.map((issue) => {
-			if (issue.epicLink) {
-				const epicIssue = store.get('issues').get(issue.epicLink).value();
-				const epic = `${epicIssue.description} (${epicIssue.key})`;
-				return Object.assign({}, issue, { epic });
-			} else {
+			if (!issue.epicLink) {
 				return issue;
 			}
+			const epicIssue = store.get('issues').get(issue.epicLink).value();
+			const epic = `${epicIssue.description} (${epicIssue.key})`;
+			return Object.assign({}, issue, { epic });
 		})
 		.value();
 }

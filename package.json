@@ -2,12 +2,19 @@
   "name": "jira-cards",
   "author": "tstapleton",
   "version": "0.0.1",
-  "description": "Make printable cards from jira issues",
+  "private": true,
+  "description": "Make printable cards from Jira issues",
   "scripts": {
     "import": "node src/import.js",
+    "lint": "eslint src public",
     "start": "nodemon --watch src src/server.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
+  "engines": {
+    "node": "8.9.0",
+    "npm": "5.5.1"
+  },
+  "engine-strict": true,
   "dependencies": {
     "csvtojson": "1.1.9",
     "handlebars": "4.0.11",
@@ -20,10 +27,8 @@
     "nodemon": "1.12.1"
   },
   "devDependencies": {
-    "eslint": "3.18.0",
-    "eslint-config-standard": "7.1.0",
-    "eslint-config-tradeshift": "3.0.0",
-    "eslint-plugin-promise": "3.5.0",
-    "eslint-plugin-standard": "2.1.1"
+    "eslint": "4.11.0",
+    "eslint-config-airbnb-base": "12.1.0",
+    "eslint-plugin-import": "2.8.0"
   }
 }

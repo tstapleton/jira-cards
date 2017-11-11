@@ -12,7 +12,7 @@ app.use(views(__dirname, {
 	options: {
 		extname: '.hbs',
 		helpers: {
-			breaklines: (text) => text ? text.replace(/(\r\n|\n|\r)/gm, '<br>') : '',
+			breaklines: (text) => (text ? text.replace(/(\r\n|\n|\r)/gm, '<br>') : ''),
 		},
 	},
 }));

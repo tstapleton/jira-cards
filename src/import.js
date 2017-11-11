@@ -8,24 +8,25 @@ const rows = [];
 const filePath = path.resolve(process.cwd(), process.argv[2]);
 
 if (!fs.existsSync(filePath)) {
-	console.error(`Cannot find file ${filePath}`);
+	console.error(`Cannot find file ${filePath}`); // eslint-disable-line no-console
 	process.exit(1);
 }
 
-console.log(`Importing ${filePath}`);
+console.log(`Importing ${filePath}`); // eslint-disable-line no-console
 
 const getHash = (issue) => crypto.createHash('sha256').update(JSON.stringify(issue)).digest('base64');
 
-const hasChanged = (issue) => {
-	return !store.get('issues').has(issue.key).value() ||
-		store.get('issues').get(issue.key).get('hash').value() !== issue.hash;
-};
+const hasIssue = (issue) => !store.get('issues').has(issue.key).value();
+
+const hasHashChanged = (issue) => store.get('issues').get(issue.key).get('hash').value() !== issue.hash;
+
+const hasIssueChanged = (issue) => !hasIssue(issue) || hasHashChanged(issue);
 
 const mapFields = (json) => ({
 	component: json['Component/s'],
 	description: json.Description,
 	epicLink: json['Custom field (Epic Link)'],
-	estimate: parseInt(json['Custom field (Story Points)']),
+	estimate: parseInt(json['Custom field (Story Points)'], 10),
 	key: json['Issue key'],
 	parentId: json['Parent id'],
 	status: json.Status,
@@ -34,7 +35,7 @@ const mapFields = (json) => ({
 });
 
 const storeIssue = (issue) => {
-	console.log(`Storing issue ${issue.key} - ${issue.summary}`);
+	console.log(`Storing issue ${issue.key} - ${issue.summary}`); // eslint-disable-line no-console
 	const printStatus = 'TODO';
 	store.get('issues').set(issue.key, Object.assign({}, issue, { printStatus })).write();
 };
@@ -42,7 +43,7 @@ const storeIssue = (issue) => {
 const storeIssues = (issues) => {
 	issues
 		.map((issue) => Object.assign({}, issue, { hash: getHash(issue) }))
-		.filter((issue) => hasChanged(issue))
+		.filter((issue) => hasIssueChanged(issue))
 		.map((issue) => storeIssue(issue));
 };
 

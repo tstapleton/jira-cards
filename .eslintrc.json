@@ -1,0 +1,19 @@
+{
+	"env": {
+		"browser": true,
+		"node": true
+	},
+	"extends": "airbnb-base",
+	"globals": {
+		"ts": false
+	},
+	"parserOptions": {
+		"ecmaVersion": 2017
+	},
+	"rules": {
+		"arrow-parens": ["error", "always"],
+		"indent": ["error", "tab"],
+		"no-confusing-arrow": ["error", { "allowParens": true }],
+		"no-tabs": "off"
+	}
+}
