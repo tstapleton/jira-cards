@@ -1,0 +1,102 @@
+.ts-main {
+	background: rgb(255, 255, 255);
+}
+.container {
+	align-items: center;
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: center;
+	margin: 0.5in auto 0;
+	width: 10in;
+}
+.card {
+	width: 5in;
+	height: 3.75in;
+	margin: 0 auto;
+	padding: 0 11px;
+	border: 1px solid rgb(33, 33, 33);
+	overflow-y: hidden;
+	position: relative;
+}
+.card header,
+.card footer {
+	display: flex;
+	font-size: 18px;
+	font-weight: 600;
+	height: 22px;
+	margin: 11px 0;
+}
+header .right,
+footer .right {
+	flex-grow: 1;
+	text-align: right;
+}
+header .lite,
+footer .lite {
+	color: rgb(147, 147, 147);
+	font-weight: 400;
+}
+header span:not(:last-of-type) {
+	padding-right: 11px;
+}
+header span.light {
+	font-weight: 400;
+}
+.content {
+	display: flex;
+	flex-direction: column;
+	height: 281px;
+	margin: -5.5px 0;
+	position: relative;
+}
+.content h2 {
+	font-size: 20px;
+	line-height: 24px;
+	margin-top: 5.5px;
+}
+.content .description {
+	flex-grow: 1;
+	max-height: 100%;
+	overflow-y: hidden;
+}
+.content.has-more {
+	overflow-y: hidden;
+	padding-bottom: 22px;
+}
+.content.has-more:after {
+	background: white;
+	bottom: 0;
+	content: 'Description truncated';
+	display: block;
+	font-size: 12px;
+	line-height: 13px;
+	position: absolute;
+	text-align: center;
+	text-transform: uppercase;
+	width: 100%;
+}
+
+@media print {
+	@page {
+		margin: 0.5in;
+		size: landscape;
+	}
+	html,
+	body,
+	.ts-main,
+	.ts-maincontent {
+		overflow: visible;
+	}
+	header.ts-topbar {
+		display: none;
+	}
+	.ts-tablet.ts-has-topbar .ts-main {
+		top: 0;
+	}
+	.card {
+		page-break-inside: avoid;
+	}
+	.container {
+		margin: 0;
+	}
+}

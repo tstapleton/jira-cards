@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="en_US">
+<head>
+	<meta charset="utf-8" />
+	<title>No 💔 for Jira</title>
+	<script src="//d5wfroyti11sa.cloudfront.net/prod/client/ts-7.0.0.min.js?internal"></script>
+	<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+	<header data-ts="TopBar"></header>
+	<main data-ts="Main">
+		<div data-ts="MainContent">
+			<div class="container">
+				{{#each issues}}
+					<article class="card">
+						<header>
+							<span class="left">{{key}}</span>
+							<span class="lite">{{component}}</span>
+							<span class="right">
+								{{#if estimate}}
+									{{estimate}}
+								{{else}}
+									<span class="lite">{{#if epicName}}N/A{{else}}?{{/if}}</span>
+								{{/if}}
+							</span>
+						</header>
+						<div class="content">
+							<h2>{{summary}}</h2>
+							<div class="description">{{{breaklines description}}}</div>
+						</div>
+						<footer>
+							<span class="left lite">
+								{{#if epic}}
+									Epic: {{epic}}
+								{{else}}
+									No epic
+								{{/if}}
+							</span>
+						</footer>
+					</article>
+				{{/each}}
+			</div>
+		</div>
+	</main>
+	<script src="script.js"></script>
+</body>
+</html>
