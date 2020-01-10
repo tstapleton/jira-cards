@@ -12,13 +12,16 @@ function archiveIssues() {
 function getIssues() {
 	return store.get('issues')
 		.filter((issue) => issue.printStatus === 'TODO')
-		.filter((issue) => issue.type === 'Story')
+		.filter((issue) => issue.type === 'Story' || issue.type === 'Task' || issue.type === 'Sub-task')
 		.map((issue) => {
 			if (!issue.epicLink) {
 				return issue;
 			}
 			const epicIssue = store.get('issues').get(issue.epicLink).value();
-			const epic = `${epicIssue.description} (${epicIssue.key})`;
+			if (!epicIssue) {
+				return issue;
+			}
+			const epic = `${epicIssue.summary} (${epicIssue.key})`;
 			return Object.assign({}, issue, { epic });
 		})
 		.value();

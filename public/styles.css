@@ -23,8 +23,13 @@
 	display: flex;
 	font-size: 18px;
 	font-weight: 600;
-	height: 22px;
 	margin: 11px 0;
+}
+.card header {
+	height: 22px;
+}
+.card footer {
+	height: 44px;
 }
 header .right,
 footer .right {

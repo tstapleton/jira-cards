@@ -35,7 +35,7 @@
 
 		// blah, overflow isn't computed correctly unless we wait a bit
 		setTimeout(() => {
-			document.querySelectorAll('.card').filter(isOverflowed).map(addIndicatorClass);
+			Array.from(document.querySelectorAll('.card')).filter(isOverflowed).map(addIndicatorClass);
 		}, 500);
 	});
 }(document));
