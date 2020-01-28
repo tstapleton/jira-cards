@@ -17,14 +17,14 @@
   "engine-strict": true,
   "dependencies": {
     "csvtojson": "1.1.9",
-    "handlebars": "4.3.0",
-    "koa": "2.4.1",
+    "handlebars": "4.7.2",
+    "koa": "2.11.0",
     "koa-better-router": "2.1.1",
-    "koa-static": "4.0.1",
-    "koa-views": "6.1.1",
-    "lodash": "4.17.13",
+    "koa-static": "5.0.0",
+    "koa-views": "6.2.1",
+    "lodash": "4.17.15",
     "lowdb": "1.0.0",
-    "nodemon": "1.12.1"
+    "nodemon": "2.0.2"
   },
   "devDependencies": {
     "eslint": "4.18.2",
