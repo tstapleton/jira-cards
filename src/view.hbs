@@ -2,7 +2,7 @@
 <html lang="en_US">
 <head>
 	<meta charset="utf-8" />
-	<title>No 💔 for Jira</title>
+	<title>No ❤️ for Jira</title>
 	<script src="//d5wfroyti11sa.cloudfront.net/prod/client/ts-7.0.0.min.js?internal"></script>
 	<link rel="stylesheet" href="styles.css">
 </head>
@@ -14,7 +14,7 @@
 				{{#each issues}}
 					<article class="card">
 						<header>
-							<span class="left">{{key}} ({{type}})</span>
+							<span class="left">{{key}} • {{type}}</span>
 							<span class="lite">{{component}}</span>
 							<span class="right">
 								{{#if estimate}}
@@ -31,7 +31,7 @@
 						<footer>
 							<span class="left lite">
 								{{#if epic}}
-									Epic: {{epic}}
+									{{epic}}
 								{{else}}
 									No epic
 								{{/if}}

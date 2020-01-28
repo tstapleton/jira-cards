@@ -14,7 +14,7 @@ function archiveIssues() {
 function getIssues() {
 	return store.get('issues')
 		.filter((issue) => issue.printStatus === 'TODO')
-		.filter((issue) => issue.type === 'Story' || issue.type === 'Task' || issue.type === 'Sub-task')
+		.filter((issue) => issue.type === 'Story' || issue.type === 'Bug')
 		.map((issue) => {
 			if (!issue.epicLink) {
 				return issue;
@@ -23,7 +23,7 @@ function getIssues() {
 			if (!epicIssue) {
 				return issue;
 			}
-			const epic = `${epicIssue.summary} (${epicIssue.key})`;
+			const epic = `${epicIssue.key}: ${epicIssue.epicName}`;
 			return Object.assign({}, issue, { epic });
 		})
 		.value();
