@@ -3,3 +3,4 @@
 .vscode
 data/store.json
 node_modules
+temp
