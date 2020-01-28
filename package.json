@@ -17,7 +17,7 @@
   "engine-strict": true,
   "dependencies": {
     "csvtojson": "1.1.9",
-    "handlebars": "4.0.11",
+    "handlebars": "4.3.0",
     "koa": "2.4.1",
     "koa-better-router": "2.1.1",
     "koa-static": "4.0.1",
