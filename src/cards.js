@@ -1,4 +1,6 @@
-const store = require('./store');
+const storeService = require('./store');
+
+const store = storeService.getStore();
 
 function archiveIssues() {
 	const issues = store.get('issues')

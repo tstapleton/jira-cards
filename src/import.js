@@ -2,17 +2,20 @@ const crypto = require('crypto');
 const csv = require('csvtojson');
 const fs = require('fs');
 const path = require('path');
-const store = require('./store');
+const storeService = require('./store');
 
+storeService.initStore();
+
+const store = storeService.getStore();
 const rows = [];
-const filePath = path.resolve(process.cwd(), process.argv[2]);
+const importFilePath = path.resolve(process.cwd(), process.argv[2]);
 
-if (!fs.existsSync(filePath)) {
-	console.error(`Cannot find file ${filePath}`); // eslint-disable-line no-console
+if (!fs.existsSync(importFilePath)) {
+	console.error(`Cannot find file ${importFilePath}`); // eslint-disable-line no-console
 	process.exit(1);
 }
 
-console.log(`Importing ${filePath}`); // eslint-disable-line no-console
+console.log(`Importing ${importFilePath}`); // eslint-disable-line no-console
 
 const getHash = (issue) => crypto.createHash('sha256').update(JSON.stringify(issue)).digest('base64');
 
@@ -48,6 +51,6 @@ const storeIssues = (issues) => {
 };
 
 csv()
-	.fromFile(filePath)
+	.fromFile(importFilePath)
 	.on('json', (row) => rows.push(mapFields(row)))
 	.on('done', () => storeIssues(rows));
