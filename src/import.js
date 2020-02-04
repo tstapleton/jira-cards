@@ -1,25 +1,28 @@
 const crypto = require('crypto');
-const csv = require('csvtojson');
+const csv = require('csvtojson/v2');
 const fs = require('fs');
 const path = require('path');
 const storeService = require('./store');
 
 storeService.initStore();
-
 const store = storeService.getStore();
-const rows = [];
-const importFilePath = path.resolve(process.cwd(), process.argv[2]);
 
-if (!fs.existsSync(importFilePath)) {
-	console.error(`Cannot find file ${importFilePath}`); // eslint-disable-line no-console
-	process.exit(1);
-}
+const getFilePath = () => {
+	const importFilePath = path.resolve(process.cwd(), process.argv[2]);
 
-console.log(`Importing ${importFilePath}`); // eslint-disable-line no-console
+	if (!fs.existsSync(importFilePath)) {
+		console.error(`Cannot find file ${importFilePath}`); // eslint-disable-line no-console
+		process.exit(1);
+	}
+
+	return importFilePath;
+};
 
 const getHash = (issue) => crypto.createHash('sha256').update(JSON.stringify(issue)).digest('base64');
 
-const hasIssue = (issue) => !store.get('issues').has(issue.key).value();
+const assignHash = (issue) => Object.assign({}, issue, { hash: getHash(issue) });
+
+const hasIssue = (issue) => store.get('issues').has(issue.key).value();
 
 const hasHashChanged = (issue) => store.get('issues').get(issue.key).get('hash').value() !== issue.hash;
 
@@ -44,14 +47,19 @@ const storeIssue = (issue) => {
 	store.get('issues').set(issue.key, Object.assign({}, issue, { printStatus })).write();
 };
 
-const storeIssues = (issues) => {
-	issues
-		.map((issue) => Object.assign({}, issue, { hash: getHash(issue) }))
-		.filter((issue) => hasIssueChanged(issue))
-		.map((issue) => storeIssue(issue));
+const doImport = async (file) => {
+	console.log(`\nImporting ${file}...\n`); // eslint-disable-line no-console
+
+	const readIssues = await csv().fromFile(file);
+	const storedIssues = readIssues
+		.map(mapFields)
+		.map(assignHash)
+		.filter(hasIssueChanged)
+		.map(storeIssue);
+
+	console.log(`\nImported ${storedIssues.length} new issues from ${readIssues.length} imported issues 🚀\n`); // eslint-disable-line no-console
 };
 
-csv()
-	.fromFile(importFilePath)
-	.on('json', (row) => rows.push(mapFields(row)))
-	.on('done', () => storeIssues(rows));
+// run the import
+const filePath = getFilePath();
+doImport(filePath);
