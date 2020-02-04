@@ -13,7 +13,7 @@
 	width: 5in;
 	height: 3.75in;
 	margin: 0 auto;
-	padding: 0 11px;
+	padding: 0 5px;
 	border: 1px solid rgb(33, 33, 33);
 	overflow-y: hidden;
 	position: relative;
@@ -21,15 +21,10 @@
 .card header,
 .card footer {
 	display: flex;
-	font-size: 18px;
+	font-size: 16px;
 	font-weight: 600;
-	margin: 11px 0;
-}
-.card header {
-	height: 22px;
-}
-.card footer {
-	height: 44px;
+	height: 20px;
+	margin: 5px 0;
 }
 header .right,
 footer .right {
@@ -42,7 +37,7 @@ footer .lite {
 	font-weight: 400;
 }
 header span:not(:last-of-type) {
-	padding-right: 11px;
+	padding-right: 10px;
 }
 header span.light {
 	font-weight: 400;
@@ -50,14 +45,14 @@ header span.light {
 .content {
 	display: flex;
 	flex-direction: column;
-	height: 281px;
-	margin: -5.5px 0;
+	height: 296px;
+	margin: 0;
 	position: relative;
 }
 .content h2 {
-	font-size: 20px;
-	line-height: 24px;
-	margin-top: 5.5px;
+	font-size: 18px;
+	line-height: 22px;
+	margin-top: 0px;
 }
 .content .description {
 	flex-grow: 1;
@@ -67,7 +62,7 @@ header span.light {
 }
 .content.has-more {
 	overflow-y: hidden;
-	padding-bottom: 22px;
+	padding-bottom: 20px;
 }
 .content.has-more:after {
 	background: white;
