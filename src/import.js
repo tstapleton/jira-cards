@@ -34,6 +34,7 @@ const mapFields = (json) => ({
 	epicLink: json['Custom field (Epic Link)'],
 	epicName: json['Custom field (Epic Name)'],
 	estimate: parseInt(json['Custom field (Story Points)'], 10),
+	hasComments: !!json.Comment,
 	key: json['Issue key'],
 	parentId: json['Parent id'],
 	status: json.Status,

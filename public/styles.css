@@ -42,6 +42,10 @@ header span:not(:last-of-type) {
 header span.light {
 	font-weight: 400;
 }
+footer .comments {
+	/* better alignment to account for whitespace after emoji image */
+	margin-right: -4px;
+}
 .content {
 	display: flex;
 	flex-direction: column;
