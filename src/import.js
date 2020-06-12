@@ -3,6 +3,7 @@ const csv = require('csvtojson/v2');
 const fs = require('fs');
 const path = require('path');
 const storeService = require('./store');
+const uuid = require('uuid');
 
 storeService.initStore();
 const store = storeService.getStore();
@@ -29,33 +30,48 @@ const hasHashChanged = (issue) => store.get('issues').get(issue.key).get('hash')
 const hasIssueChanged = (issue) => !hasIssue(issue) || hasHashChanged(issue);
 
 const mapFields = (json) => ({
-	component: json['Component/s'],
+	id: uuid.v4(),
+	acceptanceCriteria: json['Custom field (Acceptance Criteria)'],
+	created: new Date(json.Created).getTime(),
+	currentPoints: parseInt(json['Custom field (Story Points)'], 10),
 	description: json.Description,
-	epicLink: json['Custom field (Epic Link)'],
-	epicName: json['Custom field (Epic Name)'],
-	estimate: parseInt(json['Custom field (Story Points)'], 10),
-	hasComments: !!json.Comment,
+	epicId: '', // need to make a second loop on the issues to find the uuid for the epic based on epicKey
+	epicKey: json['Custom field (Epic Link)'],
 	key: json['Issue key'],
-	parentId: json['Parent id'],
+	originalPoints: parseInt(json['Custom field (Story Points)'], 10),
+	reporter: json.Reporter,
 	status: json.Status,
-	summary: json.Summary,
+	title: json.Summary,
 	type: json['Issue Type'],
 });
 
+const assignEpicId = (issue, issues) => {
+	if (!issue.epicKey) {
+		return issue;
+	}
+	const epic = issues.find((i) => i.key === issue.epicKey);
+	if (!epic) {
+		return issue;
+	}
+	return {
+		...issue,
+		epicId: epic.id,
+	};
+};
+
 const storeIssue = (issue) => {
-	console.log(`Storing issue ${issue.key} - ${issue.summary}`); // eslint-disable-line no-console
-	const printStatus = 'TODO';
-	store.get('issues').set(issue.key, Object.assign({}, issue, { printStatus })).write();
+	console.log(`Storing issue ${issue.key} - ${issue.title}`); // eslint-disable-line no-console
+	const { epicKey, ...rest } = issue;
+	store.get('issues').push(rest).write();
 };
 
 const doImport = async (file) => {
 	console.log(`\nImporting ${file}...\n`); // eslint-disable-line no-console
 
 	const readIssues = await csv().fromFile(file);
-	const storedIssues = readIssues
-		.map(mapFields)
-		.map(assignHash)
-		.filter(hasIssueChanged)
+	const issues = readIssues.map(mapFields);
+	const storedIssues = issues
+		.map((issue) => assignEpicId(issue, issues))
 		.map(storeIssue);
 
 	console.log(`\nImported ${storedIssues.length} new issues from ${readIssues.length} imported issues 🚀\n`); // eslint-disable-line no-console
