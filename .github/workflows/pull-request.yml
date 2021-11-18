@@ -24,7 +24,7 @@ jobs:
     steps:
       - name: Enable auto-merge
         run: |
-          gh auth login --with-token "$GITHUB_TOKEN"
+          gh auth login --with-token <<< "$GITHUB_TOKEN"
           gh pr merge --auto --merge "$PR_URL"
         env:
           PR_URL: ${{github.event.pull_request.html_url}}
