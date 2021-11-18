@@ -27,7 +27,7 @@ jobs:
   dependabot_check:
     needs: [build]
     runs-on: ubuntu-latest
-    if: ${{ github.actor != 'dependabot[bot]' }}
+    if: ${{ github.actor == 'dependabot[bot]' }}
     steps:
       - name: Dependabot check
         uses: actions/github-script@v5
