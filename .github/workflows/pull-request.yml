@@ -36,7 +36,7 @@ jobs:
             core.setFailed('PR author is not dependabot[bot]')
   dependabot_approve:
     runs-on: ubuntu-latest
-    needs: [dependabot_check]
+    # needs: [dependabot_check]
     steps:
       - name: Dependabot metadata
         id: metadata
