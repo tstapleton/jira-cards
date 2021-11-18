@@ -20,7 +20,8 @@ jobs:
   check-dependabot:
     runs-on: ubuntu-latest
     needs: [build]
-    if: ${{ github.actor == 'dependabot[bot]' }}
+    # TODO: should be ==
+    if: ${{ github.actor != 'dependabot[bot]' }}
     steps:
       - name: Checkout repo
         uses: actions/checkout@v2
