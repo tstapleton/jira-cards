@@ -17,14 +17,34 @@ jobs:
         run: npm ci
       - name: Run lint
         run: npm run lint
-  check-dependabot:
-    runs-on: ubuntu-latest
+  # check-dependabot:
+  #   runs-on: ubuntu-latest
+  #   needs: [build]
+  #   # # TODO: should be ==
+  #   # # failing this will skip this step - not fail the build
+  #   if: ${{ github.actor != 'dependabot[bot]' }}
+  #   uses: tstapleton/jira-cards/.github/workflows/dependabot-approve.yml@tst/gha-2
+  dependabot_check:
     needs: [build]
-    # TODO: should be ==
-    # failing this will skip this step - not fail the build
+    runs-on: ubuntu-latest
     if: ${{ github.actor != 'dependabot[bot]' }}
     steps:
-      - name: Checkout repo
-        uses: actions/checkout@v2
-      - name: Run dependabot approve workflow
-        uses: tstapleton/jira-cards/.github/workflows/dependabot-approve.yml@tst/gha-2
+      - name: Dependabot check
+        uses: actions/github-script@v5
+        with:
+          script: |
+            core.setFailed('PR author is not dependabot[bot]')
+  dependabot_approve:
+    runs-on: ubuntu-latest
+    needs: [dependabot_check]
+    steps:
+      - name: Dependabot metadata
+        id: metadata
+        uses: dependabot/fetch-metadata@v1.1.1
+        with:
+          github-token: "${{ secrets.GITHUB_TOKEN }}"
+      - name: Approve a PR
+        run: gh pr review --approve "$PR_URL"
+        env:
+          PR_URL: ${{github.event.pull_request.html_url}}
+          GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
