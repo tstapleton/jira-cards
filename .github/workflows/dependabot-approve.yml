@@ -5,6 +5,7 @@ on:
 permissions:
   pull-requests: write
 
+# TODO: move jobs here
 jobs:
   dependabot_check:
     runs-on: ubuntu-latest
@@ -15,17 +16,10 @@ jobs:
         with:
           script: |
             core.setFailed('PR author is not dependabot[bot]')
-  dependabot_approve:
-    runs-on: ubuntu-latest
-    needs: [dependabot_check]
-    steps:
-      - name: Dependabot metadata
-        id: metadata
-        uses: dependabot/fetch-metadata@v1.1.1
-        with:
-          github-token: "${{ secrets.GITHUB_TOKEN }}"
-      - name: Approve a PR
-        run: gh pr review --approve "$PR_URL"
-        env:
-          PR_URL: ${{github.event.pull_request.html_url}}
-          GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
+
+# automerge_dependabot:
+#   runs-on: ubuntu-latest
+#   needs: [build]
+#   # failing this will skip this step - not fail the build
+#   if: ${{ github.actor == 'dependabot[bot]' }}
+#   uses: tstapleton/jira-cards/.github/workflows/dependabot-approve.yml@tst/gha-2

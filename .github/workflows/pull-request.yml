@@ -17,13 +17,6 @@ jobs:
         run: npm ci
       - name: Run lint
         run: npm run lint
-  # check-dependabot:
-  #   runs-on: ubuntu-latest
-  #   needs: [build]
-  #   # # TODO: should be ==
-  #   # # failing this will skip this step - not fail the build
-  #   if: ${{ github.actor != 'dependabot[bot]' }}
-  #   uses: tstapleton/jira-cards/.github/workflows/dependabot-approve.yml@tst/gha-2
   dependabot_check:
     needs: [build]
     runs-on: ubuntu-latest
